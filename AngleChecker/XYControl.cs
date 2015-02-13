@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,10 @@ namespace AngleChecker
         private ArcDescriptor mAngle2Limits = new ArcDescriptor();
         private PointF mClickPoint;
         private PointF mTargetPoint;
+        private PointF mLastEffectorLocation;
+        private Matrix Transform;
+        private Matrix TransformInverse;
+
 
 
         public event KinematicSolverDelegate KinematicSolutionNeeded;
@@ -34,6 +39,8 @@ namespace AngleChecker
         public int MinimumX { get; set; }
 
         public bool ShowDebugInfo { get; set; }
+
+        public int AngleCorrection { get; set; }
 
         public ArcDescriptor Angle1Limits 
         { 
@@ -87,15 +94,35 @@ namespace AngleChecker
                 ControlStyles.OptimizedDoubleBuffer
                 | ControlStyles.UserPaint
                 | ControlStyles.AllPaintingInWmPaint
+                | ControlStyles.ResizeRedraw
                 , true);
         }
 
-        private PointF mLastEffectorLocation;
+        
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            Transform = new Matrix();
+            Transform.Translate(Width / 2, Height / 2);
+            Transform.Scale(1, -1);
+            Transform.Rotate(AngleCorrection);
+
+            TransformInverse = Transform.Clone();
+            TransformInverse.Invert();
+        }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            var a1 = mAngle1 * DegreesToRadians;
-            var a2 = -mAngle2 * DegreesToRadians;
+            // Debug info
+            if (ShowDebugInfo) pe.Graphics.DrawString(GetLegend(), Font, Brushes.DarkGray, 0, 0);
+
+            pe.Graphics.Transform = Transform;
+            //pe.Graphics.RotateTransform((float)(AngleCorrection * DegreesToRadians));
+
+            var a1 = (mAngle1) * DegreesToRadians;
+            var a2 = (-mAngle2) * DegreesToRadians;
 
             var p0 = new PointF(0, 0);
             var p1 = new PointF((float)(mLength1 * Math.Cos(a1)), (float)(mLength1 * Math.Sin(a1)));
@@ -111,12 +138,14 @@ namespace AngleChecker
             // Links
             using (var p = new Pen(Color.Red, 4f))
             {
-                pe.Graphics.DrawLine(p, SpaceToScreen(p0), SpaceToScreen(p1));
-                pe.Graphics.DrawLine(p, SpaceToScreen(p1), SpaceToScreen(p2));
+                pe.Graphics.DrawLine(p, p0, p1);
+                pe.Graphics.DrawLine(p, p1, p2);
             }
 
+            
+
             // Joint balls
-            //pe.Graphics.DrawLine(Pens.Magenta, SpaceToScreen(p0), SpaceToScreen(p2));
+            //pe.Graphics.DrawLine(Pens.Magenta, p0, p2);
             DrawBall(p0, 8, Color.Red, pe.Graphics);
             DrawBall(p1, 8, Color.Red, pe.Graphics);
             DrawBall(p2, 8, Color.Red, pe.Graphics);
@@ -125,10 +154,7 @@ namespace AngleChecker
             DrawBall(mClickPoint, 5, Color.Orange, pe.Graphics);
 
             // Ground
-            pe.Graphics.DrawLine(Pens.Maroon, SpaceToScreen(new PointF(85, GroundLevel)), SpaceToScreen(new PointF(280, GroundLevel)));
-
-            // Debug info
-            if (ShowDebugInfo) pe.Graphics.DrawString(GetLegend(), Font, Brushes.DarkGray, 0, 0);
+            pe.Graphics.DrawLine(Pens.Maroon, 85, GroundLevel, 280, GroundLevel);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -162,8 +188,8 @@ namespace AngleChecker
 
             using (var pen = new Pen(ad.Color))
             {
-                g.DrawLine(pen, SpaceToScreen(p), SpaceToScreen(start));
-                g.DrawLine(pen, SpaceToScreen(p), SpaceToScreen(end));
+                g.DrawLine(pen, p, start);
+                g.DrawLine(pen, p, end);
             }
         }
 
@@ -190,7 +216,7 @@ namespace AngleChecker
         private void DrawBall(PointF point, int radius, Color c, Graphics g)
         { 
             int r2 = radius * 2;
-            var p = SpaceToScreen(point);
+            var p = point;
 
             using (var b = new SolidBrush(c))
             {
@@ -208,12 +234,19 @@ namespace AngleChecker
 
         private PointF SpaceToScreen(PointF p)
         {
-            return new PointF(p.X + Width / 2, Height / 2 - p.Y);
+            return ApplyMatrixToPoint(p, Transform);
         }
 
         private PointF ScreenToSpace(PointF p)
         {
-            return new PointF(p.X - Width / 2, Height / 2 - p.Y);
+            return ApplyMatrixToPoint(p, TransformInverse);
+        }
+
+        private PointF ApplyMatrixToPoint(PointF p, Matrix m)
+        {
+            var points = new PointF[] { p };
+            m.TransformPoints(points);
+            return points[0];
         }
     }
 

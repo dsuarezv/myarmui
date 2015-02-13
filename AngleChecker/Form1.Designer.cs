@@ -181,6 +181,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.xyControl.Angle1 = 70D;
             this.xyControl.Angle2 = 10D;
+            this.xyControl.AngleCorrection = 0;
             this.xyControl.GroundLevel = -100;
             this.xyControl.Length1 = 148D;
             this.xyControl.Length2 = 161D;
@@ -217,8 +218,9 @@
             // 
             this.rotControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.rotControl.Angle1 = 70D;
-            this.rotControl.Angle2 = 10D;
+            this.rotControl.Angle1 = 0D;
+            this.rotControl.Angle2 = 0D;
+            this.rotControl.AngleCorrection = 90;
             this.rotControl.GroundLevel = -1000;
             this.rotControl.Length1 = 100D;
             this.rotControl.Length2 = 100D;
