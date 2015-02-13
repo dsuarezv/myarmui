@@ -184,11 +184,11 @@
             this.xyControl.GroundLevel = -100;
             this.xyControl.Length1 = 148D;
             this.xyControl.Length2 = 161D;
-            this.xyControl.Location = new System.Drawing.Point(471, 223);
+            this.xyControl.Location = new System.Drawing.Point(562, 223);
             this.xyControl.MinimumX = 25;
             this.xyControl.Name = "xyControl";
             this.xyControl.ShowDebugInfo = true;
-            this.xyControl.Size = new System.Drawing.Size(579, 504);
+            this.xyControl.Size = new System.Drawing.Size(488, 504);
             this.xyControl.TabIndex = 0;
             this.xyControl.TargetPosition = ((System.Drawing.PointF)(resources.GetObject("xyControl.TargetPosition")));
             this.xyControl.Text = "xyControl1";
@@ -215,6 +215,8 @@
             // 
             // rotControl
             // 
+            this.rotControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.rotControl.Angle1 = 70D;
             this.rotControl.Angle2 = 10D;
             this.rotControl.GroundLevel = -1000;
@@ -224,7 +226,7 @@
             this.rotControl.MinimumX = 0;
             this.rotControl.Name = "rotControl";
             this.rotControl.ShowDebugInfo = true;
-            this.rotControl.Size = new System.Drawing.Size(453, 504);
+            this.rotControl.Size = new System.Drawing.Size(544, 504);
             this.rotControl.TabIndex = 18;
             this.rotControl.TargetPosition = ((System.Drawing.PointF)(resources.GetObject("rotControl.TargetPosition")));
             this.rotControl.Text = "xyControl2";

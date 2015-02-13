@@ -143,10 +143,7 @@ namespace AngleChecker
                     "Angles set: {0:.}, {1:.}, {2:.}",
                     xyControl.Angle1, xyControl.Angle2, rotControl.Angle1);
 
-            var x = xyControl.TargetPosition.X;
-            var y = xyControl.TargetPosition.Y;
-            int length = (int)Math.Sqrt(x * x + y * y);
-
+            int length = (int)xyControl.TargetPosition.X;
             rotControl.Length1 = length / 2;
             rotControl.Length2 = rotControl.Length1;
         }
