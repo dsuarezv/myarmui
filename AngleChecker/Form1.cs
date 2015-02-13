@@ -134,6 +134,15 @@ namespace AngleChecker
         {
             mArm.SetAngles(xyControl.Angle1, xyControl.Angle2, rotControl.Angle1, 0);
 
+            UpdateAnglesLabels();
+
+            int length = (int)xyControl.TargetPosition.X;
+            rotControl.Length1 = length / 2;
+            rotControl.Length2 = rotControl.Length1;
+        }
+
+        private void UpdateAnglesLabels()
+        {
             PulsesLabel.Text = string.Format("{0}, {1}, {2}, 0",
                 mArm.CalibrationData.Right.GetPulsesForAngle(xyControl.Angle1),
                 mArm.CalibrationData.Left.GetPulsesForAngle(xyControl.Angle2),
@@ -142,10 +151,6 @@ namespace AngleChecker
             AnglesLabel.Text = string.Format(
                     "Angles set: {0:.}, {1:.}, {2:.}",
                     xyControl.Angle1, xyControl.Angle2, rotControl.Angle1);
-
-            int length = (int)xyControl.TargetPosition.X;
-            rotControl.Length1 = length / 2;
-            rotControl.Length2 = rotControl.Length1;
         }
         
         
@@ -174,6 +179,8 @@ namespace AngleChecker
             xyControl1_InverseKinematicsSolver(length, (int)xyControl.TargetPosition.Y, xyControl.Length1, xyControl.Length2, out a1, out a2);
 
             mArm.SetAngles(a1, a2, rotControl.Angle1, 0);
+
+            UpdateAnglesLabels();
 
             xyControl.Angle1 = a1;
             xyControl.Angle2 = a2;

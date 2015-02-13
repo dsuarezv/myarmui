@@ -41,10 +41,12 @@
             this.SensorPulsesLabel = new System.Windows.Forms.Label();
             this.Loadbutton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
-            this.xyControl = new AngleChecker.XYControl();
             this.AnglesLabel = new System.Windows.Forms.Label();
             this.SensorAnglesLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.rotControl = new AngleChecker.XYControl();
+            this.xyControl = new AngleChecker.XYControl();
             ((System.ComponentModel.ISupportInitialize)(this.Pulse1Trackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pulse2Trackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pulse3Trackbar)).BeginInit();
@@ -52,9 +54,9 @@
             // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(12, 12);
+            this.ConnectButton.Location = new System.Drawing.Point(14, 14);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(75, 23);
+            this.ConnectButton.Size = new System.Drawing.Size(87, 27);
             this.ConnectButton.TabIndex = 4;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = true;
@@ -62,9 +64,9 @@
             // 
             // DisconnectButton
             // 
-            this.DisconnectButton.Location = new System.Drawing.Point(93, 12);
+            this.DisconnectButton.Location = new System.Drawing.Point(108, 14);
             this.DisconnectButton.Name = "DisconnectButton";
-            this.DisconnectButton.Size = new System.Drawing.Size(75, 23);
+            this.DisconnectButton.Size = new System.Drawing.Size(87, 27);
             this.DisconnectButton.TabIndex = 5;
             this.DisconnectButton.Text = "Disconnect";
             this.DisconnectButton.UseVisualStyleBackColor = true;
@@ -72,9 +74,9 @@
             // 
             // Pingbutton
             // 
-            this.Pingbutton.Location = new System.Drawing.Point(174, 55);
+            this.Pingbutton.Location = new System.Drawing.Point(203, 47);
             this.Pingbutton.Name = "Pingbutton";
-            this.Pingbutton.Size = new System.Drawing.Size(75, 23);
+            this.Pingbutton.Size = new System.Drawing.Size(87, 27);
             this.Pingbutton.TabIndex = 6;
             this.Pingbutton.Text = "Read sensors";
             this.Pingbutton.UseVisualStyleBackColor = true;
@@ -82,9 +84,9 @@
             // 
             // ArmButton
             // 
-            this.ArmButton.Location = new System.Drawing.Point(12, 55);
+            this.ArmButton.Location = new System.Drawing.Point(14, 47);
             this.ArmButton.Name = "ArmButton";
-            this.ArmButton.Size = new System.Drawing.Size(75, 23);
+            this.ArmButton.Size = new System.Drawing.Size(87, 27);
             this.ArmButton.TabIndex = 10;
             this.ArmButton.Text = "Engage motors";
             this.ArmButton.UseVisualStyleBackColor = true;
@@ -92,9 +94,9 @@
             // 
             // DisarmButton
             // 
-            this.DisarmButton.Location = new System.Drawing.Point(93, 55);
+            this.DisarmButton.Location = new System.Drawing.Point(108, 47);
             this.DisarmButton.Name = "DisarmButton";
-            this.DisarmButton.Size = new System.Drawing.Size(75, 23);
+            this.DisarmButton.Size = new System.Drawing.Size(87, 27);
             this.DisarmButton.TabIndex = 11;
             this.DisarmButton.Text = "Disengage motors";
             this.DisarmButton.UseVisualStyleBackColor = true;
@@ -102,11 +104,11 @@
             // 
             // Pulse1Trackbar
             // 
-            this.Pulse1Trackbar.Location = new System.Drawing.Point(25, 96);
+            this.Pulse1Trackbar.Location = new System.Drawing.Point(16, 83);
             this.Pulse1Trackbar.Maximum = 2400;
             this.Pulse1Trackbar.Minimum = 600;
             this.Pulse1Trackbar.Name = "Pulse1Trackbar";
-            this.Pulse1Trackbar.Size = new System.Drawing.Size(182, 45);
+            this.Pulse1Trackbar.Size = new System.Drawing.Size(212, 45);
             this.Pulse1Trackbar.TabIndex = 13;
             this.Pulse1Trackbar.TickFrequency = 100;
             this.Pulse1Trackbar.Value = 1500;
@@ -114,11 +116,11 @@
             // 
             // Pulse2Trackbar
             // 
-            this.Pulse2Trackbar.Location = new System.Drawing.Point(213, 96);
+            this.Pulse2Trackbar.Location = new System.Drawing.Point(235, 83);
             this.Pulse2Trackbar.Maximum = 2400;
             this.Pulse2Trackbar.Minimum = 600;
             this.Pulse2Trackbar.Name = "Pulse2Trackbar";
-            this.Pulse2Trackbar.Size = new System.Drawing.Size(182, 45);
+            this.Pulse2Trackbar.Size = new System.Drawing.Size(212, 45);
             this.Pulse2Trackbar.TabIndex = 13;
             this.Pulse2Trackbar.TickFrequency = 100;
             this.Pulse2Trackbar.Value = 1500;
@@ -126,11 +128,11 @@
             // 
             // Pulse3Trackbar
             // 
-            this.Pulse3Trackbar.Location = new System.Drawing.Point(401, 96);
+            this.Pulse3Trackbar.Location = new System.Drawing.Point(455, 83);
             this.Pulse3Trackbar.Maximum = 2400;
             this.Pulse3Trackbar.Minimum = 600;
             this.Pulse3Trackbar.Name = "Pulse3Trackbar";
-            this.Pulse3Trackbar.Size = new System.Drawing.Size(182, 45);
+            this.Pulse3Trackbar.Size = new System.Drawing.Size(212, 45);
             this.Pulse3Trackbar.TabIndex = 13;
             this.Pulse3Trackbar.TickFrequency = 100;
             this.Pulse3Trackbar.Value = 1500;
@@ -138,27 +140,27 @@
             // 
             // PulsesLabel
             // 
-            this.PulsesLabel.Location = new System.Drawing.Point(213, 144);
+            this.PulsesLabel.Location = new System.Drawing.Point(461, 27);
             this.PulsesLabel.Name = "PulsesLabel";
-            this.PulsesLabel.Size = new System.Drawing.Size(182, 15);
+            this.PulsesLabel.Size = new System.Drawing.Size(212, 17);
             this.PulsesLabel.TabIndex = 9;
             this.PulsesLabel.Text = "Pulses set";
-            this.PulsesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PulsesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SensorPulsesLabel
             // 
-            this.SensorPulsesLabel.Location = new System.Drawing.Point(213, 159);
+            this.SensorPulsesLabel.Location = new System.Drawing.Point(461, 47);
             this.SensorPulsesLabel.Name = "SensorPulsesLabel";
-            this.SensorPulsesLabel.Size = new System.Drawing.Size(182, 15);
+            this.SensorPulsesLabel.Size = new System.Drawing.Size(212, 17);
             this.SensorPulsesLabel.TabIndex = 9;
             this.SensorPulsesLabel.Text = "Sensor pulses read";
-            this.SensorPulsesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SensorPulsesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Loadbutton
             // 
-            this.Loadbutton.Location = new System.Drawing.Point(402, 135);
+            this.Loadbutton.Location = new System.Drawing.Point(316, 14);
             this.Loadbutton.Name = "Loadbutton";
-            this.Loadbutton.Size = new System.Drawing.Size(112, 23);
+            this.Loadbutton.Size = new System.Drawing.Size(131, 27);
             this.Loadbutton.TabIndex = 14;
             this.Loadbutton.Text = "Load calibration";
             this.Loadbutton.UseVisualStyleBackColor = true;
@@ -166,13 +168,72 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(402, 159);
+            this.SaveButton.Location = new System.Drawing.Point(316, 47);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(112, 23);
+            this.SaveButton.Size = new System.Drawing.Size(131, 27);
             this.SaveButton.TabIndex = 15;
             this.SaveButton.Text = "Save calibration";
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
+            // AnglesLabel
+            // 
+            this.AnglesLabel.AutoSize = true;
+            this.AnglesLabel.Location = new System.Drawing.Point(669, 32);
+            this.AnglesLabel.Name = "AnglesLabel";
+            this.AnglesLabel.Size = new System.Drawing.Size(61, 15);
+            this.AnglesLabel.TabIndex = 16;
+            this.AnglesLabel.Text = "Angles set";
+            // 
+            // SensorAnglesLabel
+            // 
+            this.SensorAnglesLabel.AutoSize = true;
+            this.SensorAnglesLabel.Location = new System.Drawing.Point(669, 51);
+            this.SensorAnglesLabel.Name = "SensorAnglesLabel";
+            this.SensorAnglesLabel.Size = new System.Drawing.Size(105, 15);
+            this.SensorAnglesLabel.TabIndex = 17;
+            this.SensorAnglesLabel.Text = "Sensor angles read";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(6, 149);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(154, 46);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Top view";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(598, 149);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(160, 46);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Side view";
+            // 
+            // rotControl
+            // 
+            this.rotControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.rotControl.Angle1 = 0D;
+            this.rotControl.Angle2 = 0D;
+            this.rotControl.AngleCorrection = 90;
+            this.rotControl.GroundLevel = -1000;
+            this.rotControl.Length1 = 100D;
+            this.rotControl.Length2 = 100D;
+            this.rotControl.Location = new System.Drawing.Point(14, 198);
+            this.rotControl.MinimumX = 0;
+            this.rotControl.Name = "rotControl";
+            this.rotControl.ShowDebugInfo = true;
+            this.rotControl.Size = new System.Drawing.Size(586, 519);
+            this.rotControl.TabIndex = 18;
+            this.rotControl.TargetPosition = ((System.Drawing.PointF)(resources.GetObject("rotControl.TargetPosition")));
+            this.rotControl.Text = "xyControl2";
+            this.rotControl.KinematicSolutionNeeded += new AngleChecker.KinematicSolverDelegate(this.rotControl_KinematicSolutionNeeded);
+            this.rotControl.KinematicSolved += new AngleChecker.KinematicClickDelegate(this.rotControl_KinematicSolved);
             // 
             // xyControl
             // 
@@ -185,61 +246,24 @@
             this.xyControl.GroundLevel = -100;
             this.xyControl.Length1 = 148D;
             this.xyControl.Length2 = 161D;
-            this.xyControl.Location = new System.Drawing.Point(562, 223);
+            this.xyControl.Location = new System.Drawing.Point(606, 198);
             this.xyControl.MinimumX = 25;
             this.xyControl.Name = "xyControl";
             this.xyControl.ShowDebugInfo = true;
-            this.xyControl.Size = new System.Drawing.Size(488, 504);
+            this.xyControl.Size = new System.Drawing.Size(499, 519);
             this.xyControl.TabIndex = 0;
             this.xyControl.TargetPosition = ((System.Drawing.PointF)(resources.GetObject("xyControl.TargetPosition")));
             this.xyControl.Text = "xyControl1";
             this.xyControl.KinematicSolutionNeeded += new AngleChecker.KinematicSolverDelegate(this.xyControl1_InverseKinematicsSolver);
             this.xyControl.KinematicSolved += new AngleChecker.KinematicClickDelegate(this.xyControl1_KinematicSolved);
             // 
-            // AnglesLabel
-            // 
-            this.AnglesLabel.AutoSize = true;
-            this.AnglesLabel.Location = new System.Drawing.Point(25, 144);
-            this.AnglesLabel.Name = "AnglesLabel";
-            this.AnglesLabel.Size = new System.Drawing.Size(56, 13);
-            this.AnglesLabel.TabIndex = 16;
-            this.AnglesLabel.Text = "Angles set";
-            // 
-            // SensorAnglesLabel
-            // 
-            this.SensorAnglesLabel.AutoSize = true;
-            this.SensorAnglesLabel.Location = new System.Drawing.Point(25, 160);
-            this.SensorAnglesLabel.Name = "SensorAnglesLabel";
-            this.SensorAnglesLabel.Size = new System.Drawing.Size(98, 13);
-            this.SensorAnglesLabel.TabIndex = 17;
-            this.SensorAnglesLabel.Text = "Sensor angles read";
-            // 
-            // rotControl
-            // 
-            this.rotControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.rotControl.Angle1 = 0D;
-            this.rotControl.Angle2 = 0D;
-            this.rotControl.AngleCorrection = 90;
-            this.rotControl.GroundLevel = -1000;
-            this.rotControl.Length1 = 100D;
-            this.rotControl.Length2 = 100D;
-            this.rotControl.Location = new System.Drawing.Point(12, 223);
-            this.rotControl.MinimumX = 0;
-            this.rotControl.Name = "rotControl";
-            this.rotControl.ShowDebugInfo = true;
-            this.rotControl.Size = new System.Drawing.Size(544, 504);
-            this.rotControl.TabIndex = 18;
-            this.rotControl.TargetPosition = ((System.Drawing.PointF)(resources.GetObject("rotControl.TargetPosition")));
-            this.rotControl.Text = "xyControl2";
-            this.rotControl.KinematicSolutionNeeded += new AngleChecker.KinematicSolverDelegate(this.rotControl_KinematicSolutionNeeded);
-            this.rotControl.KinematicSolved += new AngleChecker.KinematicClickDelegate(this.rotControl_KinematicSolved);
-            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1062, 739);
+            this.ClientSize = new System.Drawing.Size(1119, 731);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.rotControl);
             this.Controls.Add(this.SensorAnglesLabel);
             this.Controls.Add(this.AnglesLabel);
@@ -256,6 +280,7 @@
             this.Controls.Add(this.DisconnectButton);
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.xyControl);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -285,6 +310,8 @@
         private System.Windows.Forms.Label AnglesLabel;
         private System.Windows.Forms.Label SensorAnglesLabel;
         private XYControl rotControl;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

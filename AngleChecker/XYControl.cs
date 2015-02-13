@@ -118,9 +118,20 @@ namespace AngleChecker
             // Debug info
             if (ShowDebugInfo) pe.Graphics.DrawString(GetLegend(), Font, Brushes.DarkGray, 0, 0);
 
+            // Apply transformation for centering and any possible rotation correction.
             pe.Graphics.Transform = Transform;
-            //pe.Graphics.RotateTransform((float)(AngleCorrection * DegreesToRadians));
 
+            DrawArm(pe);
+
+            // Clicked point
+            DrawBall(mClickPoint, 5, Color.Orange, pe.Graphics);
+
+            // Ground
+            pe.Graphics.DrawLine(Pens.Maroon, 85, GroundLevel, 280, GroundLevel);
+        }
+
+        private void DrawArm(PaintEventArgs pe)
+        {
             var a1 = (mAngle1) * DegreesToRadians;
             var a2 = (-mAngle2) * DegreesToRadians;
 
@@ -142,19 +153,10 @@ namespace AngleChecker
                 pe.Graphics.DrawLine(p, p1, p2);
             }
 
-            
-
             // Joint balls
-            //pe.Graphics.DrawLine(Pens.Magenta, p0, p2);
             DrawBall(p0, 8, Color.Red, pe.Graphics);
             DrawBall(p1, 8, Color.Red, pe.Graphics);
             DrawBall(p2, 8, Color.Red, pe.Graphics);
-
-            // Clicked point
-            DrawBall(mClickPoint, 5, Color.Orange, pe.Graphics);
-
-            // Ground
-            pe.Graphics.DrawLine(Pens.Maroon, 85, GroundLevel, 280, GroundLevel);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
