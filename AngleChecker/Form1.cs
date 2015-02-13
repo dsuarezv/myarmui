@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,20 +26,20 @@ namespace AngleChecker
         {
             InitializeComponent();
 
-            xyControl1.KinematicSolutionNeeded += IkSolver;
-            xyControl1.Angle1Limits.StartAngle = -20;
-            xyControl1.Angle1Limits.EndAngle = 160;
-            xyControl1.Angle2Limits.Inverted = true;
-            xyControl1.Angle2Limits.StartAngle = -35;
-            xyControl1.Angle2Limits.EndAngle = 135;
+            xyControl.Angle1Limits.StartAngle = -20;
+            xyControl.Angle1Limits.EndAngle = 160;
+            xyControl.Angle2Limits.Inverted = true;
+            xyControl.Angle2Limits.StartAngle = -35;
+            xyControl.Angle2Limits.EndAngle = 135;
+
+            rotControl.Angle1Limits.StartAngle = -90;
+            rotControl.Angle1Limits.EndAngle = 90;
+            rotControl.Angle2Limits.StartAngle = -180;
+            rotControl.Angle2Limits.EndAngle = 180;
 
             mArm.AnglesReceived += mArm_AnglesReceived;
-        }
 
-
-        private void xyControl1_KinematicSolved()
-        {
-            mArm.SetAngles(xyControl1.Angle1, xyControl1.Angle2, 0, 0);
+            LoadConfiguration();
         }
 
 
@@ -55,17 +56,30 @@ namespace AngleChecker
             mArm.Detach();
         }
 
-
-        private void Pingbutton_Click(object sender, EventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            mArm.Ping();
-            //mArm.ReadAngles();
+            mArm.Detach();
+        }
+
+        private void ReadButton_Click(object sender, EventArgs e)
+        {
+            mArm.ReadAngles();
         }
 
         private void mArm_AnglesReceived(short a1, short a2, short rot, short gripRot)
         {
             Invoke(() => {
-                SensorsLabel.Text = string.Format("{0}, {1}, {2}", a1, a2, rot, gripRot);
+                SensorPulsesLabel.Text = string.Format(
+                    "Sensor pulses: {0}, {1}, {2}",
+                    mArm.CalibrationData.Right.GetPulsesForSensorReading(a1),
+                    mArm.CalibrationData.Left.GetPulsesForSensorReading(a2),
+                    mArm.CalibrationData.Rotation.GetPulsesForSensorReading(rot));
+
+                SensorAnglesLabel.Text = string.Format(
+                    "Sensor angles: {0:.}, {1:.}, {2:.}",
+                    mArm.CalibrationData.Right.GetAngleForSensorReading(a1),
+                    mArm.CalibrationData.Left.GetAngleForSensorReading(a2),
+                    mArm.CalibrationData.Rotation.GetAngleForSensorReading(rot));
             });
         }
 
@@ -98,7 +112,7 @@ namespace AngleChecker
 
         private const double RadiansToDegrees = 180 / Math.PI;
 
-        private void IkSolver(int length, int height, double ArmA, double ArmC, out double rightAngle, out double leftAngle)
+        private void xyControl1_InverseKinematicsSolver(int length, int height, double ArmA, double ArmC, out double rightAngle, out double leftAngle)
         {
             double ArmA2 = ArmA * ArmA;
             double ArmC2 = ArmC * ArmC;
@@ -116,6 +130,61 @@ namespace AngleChecker
             rightAngle = delta + gamma;
         }
 
+        private void xyControl1_KinematicSolved()
+        {
+            mArm.SetAngles(xyControl.Angle1, xyControl.Angle2, rotControl.Angle1, 0);
+
+            PulsesLabel.Text = string.Format("{0}, {1}, {2}, 0",
+                mArm.CalibrationData.Right.GetPulsesForAngle(xyControl.Angle1),
+                mArm.CalibrationData.Left.GetPulsesForAngle(xyControl.Angle2),
+                mArm.CalibrationData.Rotation.GetPulsesForAngle(rotControl.Angle1));
+
+            AnglesLabel.Text = string.Format(
+                    "Angles set: {0:.}, {1:.}, {2:.}",
+                    xyControl.Angle1, xyControl.Angle2, rotControl.Angle1);
+
+            var x = xyControl.TargetPosition.X;
+            var y = xyControl.TargetPosition.Y;
+            int length = (int)Math.Sqrt(x * x + y * y);
+
+            rotControl.Length1 = length / 2;
+            rotControl.Length2 = rotControl.Length1;
+        }
+        
+        
+        // __ Rotation kinematics _____________________________________________
+
+
+        private void rotControl_KinematicSolutionNeeded(int x, int y, double l1, double l2, out double a1, out double a2)
+        {
+            int length = (int)Math.Sqrt(x * x + y * y);
+
+            rotControl.Length1 = length / 2;
+            rotControl.Length2 = rotControl.Length1;
+
+            a1 = Math.Atan2(y, x) * RadiansToDegrees;
+            a2 = -a1;
+        }
+
+        private void rotControl_KinematicSolved()
+        {
+            var x = rotControl.TargetPosition.X;
+            var y = rotControl.TargetPosition.Y;
+
+            int length = (int)Math.Sqrt(x * x + y * y);
+
+            double a1, a2;
+            xyControl1_InverseKinematicsSolver(length, (int)xyControl.TargetPosition.Y, xyControl.Length1, xyControl.Length2, out a1, out a2);
+
+            mArm.SetAngles(a1, a2, rotControl.Angle1, 0);
+
+            xyControl.Angle1 = a1;
+            xyControl.Angle2 = a2;
+        }
+
+        // __ UI events _______________________________________________________
+
+
         private void ArmButton_Click(object sender, EventArgs e)
         {
             mArm.Engage();
@@ -125,6 +194,10 @@ namespace AngleChecker
         {
             mArm.Disengage();
         }
+
+
+        // __ Calibration _____________________________________________________
+
 
         private void Pulse1Trackbar_ValueChanged(object sender, EventArgs e)
         {
@@ -147,19 +220,21 @@ namespace AngleChecker
             PulsesLabel.Text = string.Format("{0}, {1}, {2}", Pulse1Trackbar.Value, Pulse2Trackbar.Value, Pulse3Trackbar.Value);
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void LoadConfiguration()
         {
-            mArm.Detach();
+            if (!File.Exists(mCalibrationFileName)) return;
+
+            mArm.LoadConfiguration(mCalibrationFileName);
         }
 
         private void Loadbutton_Click(object sender, EventArgs e)
         {
-            mArm.LoadCalibrationData(mCalibrationFileName);
+            LoadConfiguration();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            mArm.SaveCalibrationData(mCalibrationFileName);
+            mArm.SaveConfiguration(mCalibrationFileName);
         }
 
     }

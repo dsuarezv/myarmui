@@ -13,16 +13,16 @@ namespace AngleChecker
     public partial class XYControl : Control
     {
         private const double DegreesToRadians = Math.PI / 180;
-        private const int MinimumX = 25;
-
+        
+        
         private double mAngle1 = 70;
         private double mAngle2 = 10;
         private double mLength1 = 100;
         private double mLength2 = 100;
         private ArcDescriptor mAngle1Limits = new ArcDescriptor();
         private ArcDescriptor mAngle2Limits = new ArcDescriptor();
-
         private PointF mClickPoint;
+        private PointF mTargetPoint;
 
 
         public event KinematicSolverDelegate KinematicSolutionNeeded;
@@ -31,16 +31,18 @@ namespace AngleChecker
 
         public int GroundLevel { get; set; }
 
+        public int MinimumX { get; set; }
+
+        public bool ShowDebugInfo { get; set; }
+
         public ArcDescriptor Angle1Limits 
         { 
             get { return mAngle1Limits; }
-            set { mAngle1Limits = value; Invalidate(); }
         }
 
         public ArcDescriptor Angle2Limits 
         { 
             get { return mAngle2Limits; }
-            set { mAngle2Limits = value; Invalidate(); }
         }
 
         public double Angle1
@@ -65,6 +67,17 @@ namespace AngleChecker
         {
             get { return mLength2; }
             set { mLength2 = value; Invalidate(); }
+        }
+
+        public PointF ClickPosition
+        {
+            get { return mClickPoint; }
+        }
+
+        public PointF TargetPosition
+        {
+            get { return mTargetPoint; }
+            set { mTargetPoint = value; SolveKinematics(); }
         }
 
 
@@ -115,20 +128,21 @@ namespace AngleChecker
             pe.Graphics.DrawLine(Pens.Maroon, SpaceToScreen(new PointF(85, GroundLevel)), SpaceToScreen(new PointF(280, GroundLevel)));
 
             // Debug info
-            pe.Graphics.DrawString(GetLegend(), Font, Brushes.Black, 0, 0);
+            if (ShowDebugInfo) pe.Graphics.DrawString(GetLegend(), Font, Brushes.DarkGray, 0, 0);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            SolveKinematics(ScreenToSpace(new PointF(e.X, e.Y)));
+            mTargetPoint = ScreenToSpace(new Point(e.X, e.Y));
+            SolveKinematics();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                SolveKinematics(ScreenToSpace(new PointF(e.X, e.Y)));
-                Invalidate();
+                mTargetPoint = ScreenToSpace(new PointF(e.X, e.Y));
+                SolveKinematics();
             }
         }
 
@@ -153,8 +167,10 @@ namespace AngleChecker
             }
         }
 
-        private void SolveKinematics(PointF p)
+        private void SolveKinematics()
         {
+            PointF p = mTargetPoint;
+
             if (p.X < MinimumX) p.X = MinimumX;
             mClickPoint = p;
 
@@ -167,6 +183,8 @@ namespace AngleChecker
             Angle2 = Angle2Limits.Constrain(a2);
 
             if (KinematicSolved != null) KinematicSolved();
+
+            Invalidate();
         }
 
         private void DrawBall(PointF point, int radius, Color c, Graphics g)
@@ -182,7 +200,7 @@ namespace AngleChecker
 
         private string GetLegend()
         {
-            return string.Format("Angle 1 (right): {0}\nAngle 2 (left): {1}\nX, Y: ({2:0}, {3:0})\nClick: ({4:0}, {5:0})", 
+            return string.Format("Angle 1 (right): {0:.00}\nAngle 2 (left): {1:.00}\nX, Y: ({2:0}, {3:0})\nClick: ({4:0}, {5:0})", 
                 mAngle1, mAngle2, 
                 mLastEffectorLocation.X, mLastEffectorLocation.Y, 
                 mClickPoint.X, mClickPoint.Y);

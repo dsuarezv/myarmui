@@ -23,12 +23,20 @@ namespace MyArmClient
         public CalibrationData Min = new CalibrationData();
         public CalibrationData Max = new CalibrationData();
 
+        public double GetAngleForSensorReading(Int16 sensorReading)
+        {
+            //if (sensorReading < Min.RawSensor) sensorReading = (Int16)Min.RawSensor;
+            //if (sensorReading > Max.RawSensor) sensorReading = (Int16)Max.RawSensor;
+
+            return Map(sensorReading, Min.RawSensor, Max.RawSensor, Min.Angle, Max.Angle);
+        }
+
         public Int16 GetPulsesForSensorReading(Int16 sensorReading)
         {
-            if (sensorReading < Min.RawSensor) sensorReading = (Int16)Min.RawSensor;
-            if (sensorReading > Max.RawSensor) sensorReading = (Int16)Max.RawSensor;
+            //if (sensorReading < Min.RawSensor) sensorReading = (Int16)Min.RawSensor;
+            //if (sensorReading > Max.RawSensor) sensorReading = (Int16)Max.RawSensor;
 
-            return Map(sensorReading, Min.Angle, Max.Angle, Min.Pulses, Max.Pulses);
+            return Map(sensorReading, Min.RawSensor, Max.RawSensor, Min.Pulses, Max.Pulses);
         }
 
         public Int16 GetPulsesForAngle(double angle)

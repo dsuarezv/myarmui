@@ -17,6 +17,12 @@ namespace MyArmClient
         public event AnglesDelegate AnglesReceived;
 
 
+        public AxesCalibration CalibrationData
+        {
+            get { return mCalibrationData; }
+        }
+
+
         public Client(string comPort)
         {
             mComPortName = comPort;
@@ -56,18 +62,20 @@ namespace MyArmClient
         // __ Public commands _________________________________________________
 
 
-        public void SaveCalibrationData(string fileName)
+        public void SaveConfiguration(string fileName)
         {
             mCalibrationData.Save(fileName);
         }
 
-        public void LoadCalibrationData(string fileName)
+        public void LoadConfiguration(string fileName)
         {
             mCalibrationData = AxesCalibration.Load(fileName);
         }
 
         public void Engage()
         {
+            if (!IsConnected()) return;
+
             lock (mWriteLock)
             {
                 WriteHeader(PacketType.Engage);
@@ -77,6 +85,8 @@ namespace MyArmClient
 
         public void Disengage()
         {
+            if (!IsConnected()) return;
+
             lock (mWriteLock)
             {
                 WriteHeader(PacketType.Disengage);
@@ -86,6 +96,8 @@ namespace MyArmClient
 
         public void Ping()
         {
+            if (!IsConnected()) return;
+
             lock (mWriteLock)
             {
                 WriteHeader(PacketType.Ping);
@@ -95,6 +107,8 @@ namespace MyArmClient
 
         public void SetAngles(double a1, double a2, double rotation, double gripperRotation)
         {
+            if (!IsConnected()) return;
+
             if (double.IsNaN(a1) || double.IsNaN(a2) || double.IsNaN(rotation) || double.IsNaN(gripperRotation)) return;
 
             SetPulses(
@@ -106,7 +120,7 @@ namespace MyArmClient
 
         public void SetPulses(Int16 a1, Int16 a2, Int16 rotation, Int16 gripperRotation)
         {
-            //Console.WriteLine("Pulses: {0}, {1}", a1, a2);
+            if (!IsConnected()) return;
 
             lock (mWriteLock)
             {
@@ -122,6 +136,8 @@ namespace MyArmClient
 
         public void ReadAngles()
         {
+            if (!IsConnected()) return;
+
             lock (mWriteLock)
             {
                 WriteHeader(PacketType.GetAngles);
@@ -185,6 +201,11 @@ namespace MyArmClient
 
         // __ Serial port management __________________________________________
 
+
+        private bool IsConnected()
+        {
+            return (mPortWriter != null);
+        }
 
         private void LaunchReadingThread()
         {
