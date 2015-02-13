@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleChecker", "AngleChecker\AngleChecker.csproj", "{AD6C474C-EA8C-49BB-842A-6353E0B560D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyArmClient", "MyArmClient\MyArmClient.csproj", "{065BAE93-3491-4B84-9D70-FB3BE502AD82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyArmTests", "MyArmTests\MyArmTests.csproj", "{F0998318-7A42-46FE-B71C-82EB7185FF01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD6C474C-EA8C-49BB-842A-6353E0B560D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD6C474C-EA8C-49BB-842A-6353E0B560D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD6C474C-EA8C-49BB-842A-6353E0B560D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD6C474C-EA8C-49BB-842A-6353E0B560D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{065BAE93-3491-4B84-9D70-FB3BE502AD82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065BAE93-3491-4B84-9D70-FB3BE502AD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065BAE93-3491-4B84-9D70-FB3BE502AD82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065BAE93-3491-4B84-9D70-FB3BE502AD82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0998318-7A42-46FE-B71C-82EB7185FF01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0998318-7A42-46FE-B71C-82EB7185FF01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0998318-7A42-46FE-B71C-82EB7185FF01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0998318-7A42-46FE-B71C-82EB7185FF01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
