@@ -14,6 +14,9 @@ namespace AngleChecker
 {
     public partial class Form1 : Form
     {
+        private string mCalibrationFileName = "MG995servos.xml";
+
+
         private Client mArm = new Client("COM3");
         private bool mWantsReads;
 
@@ -22,14 +25,9 @@ namespace AngleChecker
         {
             InitializeComponent();
 
-            A1Track.Value = (int)xyControl1.Angle1;
-            A2Track.Value = (int)xyControl1.Angle2;
-
-            xyControl1.Solver += IkSolver;
-
+            xyControl1.KinematicSolutionNeeded += IkSolver;
             xyControl1.Angle1Limits.StartAngle = -20;
             xyControl1.Angle1Limits.EndAngle = 160;
-
             xyControl1.Angle2Limits.Inverted = true;
             xyControl1.Angle2Limits.StartAngle = -35;
             xyControl1.Angle2Limits.EndAngle = 135;
@@ -40,32 +38,9 @@ namespace AngleChecker
 
         private void xyControl1_KinematicSolved()
         {
-            if (xyControl1.Angle1 == double.NaN || xyControl1.Angle2 == double.NaN) return;
-
             mArm.SetAngles(xyControl1.Angle1, xyControl1.Angle2, 0, 0);
         }
 
-
-        private void A1Track_Scroll(object sender, EventArgs e)
-        {
-            //xyControl1.Angle1 = A1Track.Value + Offset1Trackbar.Value;
-            //UpdateCaption();
-        }
-
-        private void A2Track_Scroll(object sender, EventArgs e)
-        {
-            //xyControl1.Angle2 = A2Track.Value + Offset2Trackbar.Value;
-            //UpdateCaption();
-        }
-
-        private void UpdateCaption()
-        {
-            OffsetsLabel.Text = string.Format(
-                "{0}\n{1}",
-                Offset1Trackbar.Value, 
-                Offset2Trackbar.Value
-                );
-        }
 
         private void ConnectButton_Click(object sender, EventArgs e)
         {
@@ -83,28 +58,13 @@ namespace AngleChecker
 
         private void Pingbutton_Click(object sender, EventArgs e)
         {
-            //mArm.Ping();
-            mArm.ReadAngles();
-        }
-
-
-        private int Constrain(int val, int min, int max)
-        {
-            if (val < min) return min;
-            if (val > max) return max;
-
-            return val;
+            mArm.Ping();
+            //mArm.ReadAngles();
         }
 
         private void mArm_AnglesReceived(short a1, short a2, short rot, short gripRot)
         {
             Invoke(() => {
-                int va1 = 180 - a1;
-                int va2 = 180 - a2;
-
-                A1Track.Value = Constrain(va1, -180, 180);
-                A2Track.Value = Constrain(va2, -180, 180);
-
                 SensorsLabel.Text = string.Format("{0}, {1}, {2}", a1, a2, rot, gripRot);
             });
         }
@@ -154,19 +114,6 @@ namespace AngleChecker
 
             leftAngle = 180 - delta - gamma - epsilon;
             rightAngle = delta + gamma;
-
-
-            //label1.Text = string.Format("delta: {0:0.00}, gamma: {1:0.00}, epsilon: {2:0.00}", delta, gamma, epsilon);
-        }
-
-        private void Offset1Trackbar_ValueChanged(object sender, EventArgs e)
-        {
-            //A1Track_Scroll(null, null);
-        }
-
-        private void Offset2Trackbar_ValueChanged(object sender, EventArgs e)
-        {
-            //A2Track_Scroll(null, null);
         }
 
         private void ArmButton_Click(object sender, EventArgs e)
@@ -177,11 +124,6 @@ namespace AngleChecker
         private void DisarmButton_Click(object sender, EventArgs e)
         {
             mArm.Disengage();
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void Pulse1Trackbar_ValueChanged(object sender, EventArgs e)
@@ -212,12 +154,12 @@ namespace AngleChecker
 
         private void Loadbutton_Click(object sender, EventArgs e)
         {
-            mArm.LoadCalibrationData("myarm.xml");
+            mArm.LoadCalibrationData(mCalibrationFileName);
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            mArm.SaveCalibrationData("myarm.xml");
+            mArm.SaveCalibrationData(mCalibrationFileName);
         }
 
     }

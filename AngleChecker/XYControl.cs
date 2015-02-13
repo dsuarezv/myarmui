@@ -25,7 +25,7 @@ namespace AngleChecker
         private PointF mClickPoint;
 
 
-        public event KinematicSolverDelegate Solver;
+        public event KinematicSolverDelegate KinematicSolutionNeeded;
         public event KinematicClickDelegate KinematicSolved;
 
 
@@ -158,10 +158,10 @@ namespace AngleChecker
             if (p.X < MinimumX) p.X = MinimumX;
             mClickPoint = p;
 
-            if (Solver == null) return;
+            if (KinematicSolutionNeeded == null) return;
 
             double a1, a2;
-            Solver((int)p.X, (int)p.Y, mLength1, mLength2, out a1, out a2);
+            KinematicSolutionNeeded((int)p.X, (int)p.Y, mLength1, mLength2, out a1, out a2);
 
             Angle1 = Angle1Limits.Constrain(a1);
             Angle2 = Angle2Limits.Constrain(a2);
