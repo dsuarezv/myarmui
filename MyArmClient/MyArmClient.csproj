@@ -42,6 +42,7 @@
     <Compile Include="CalibrationData.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Crc8.cs" />
+    <Compile Include="IkSolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
