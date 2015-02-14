@@ -282,7 +282,7 @@
             this.Controls.Add(this.xyControl);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "MyArm basic controller";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.Pulse1Trackbar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pulse2Trackbar)).EndInit();

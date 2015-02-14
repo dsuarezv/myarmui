@@ -47,7 +47,7 @@ namespace AngleChecker
         {
             mArm.Attach();
 
-            //LaunchReaderThread();
+            LaunchReaderThread();
         }
 
         private void DisconnectButton_Click(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace AngleChecker
             while (mWantsReads)
             {
                 mArm.ReadAngles();
-                Thread.Sleep(33);
+                Thread.Sleep(200);
             }
         }
 
