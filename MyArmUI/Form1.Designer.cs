@@ -95,9 +95,11 @@
             this.Angle1Trackbar.Size = new System.Drawing.Size(189, 45);
             this.Angle1Trackbar.TabIndex = 0;
             this.Angle1Trackbar.TickFrequency = 45;
+            this.Angle1Trackbar.ValueChanged += new System.EventHandler(this.Angle1Trackbar_ValueChanged);
             // 
             // splitter1
             // 
+            this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(130)))), ((int)(((byte)(130)))), ((int)(((byte)(130)))));
             this.splitter1.Location = new System.Drawing.Point(198, 39);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(4, 498);
@@ -118,6 +120,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(151)))), ((int)(((byte)(151)))));
             this.ClientSize = new System.Drawing.Size(650, 537);
             this.Controls.Add(this.View3d);
             this.Controls.Add(this.splitter1);

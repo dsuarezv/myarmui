@@ -40,5 +40,6 @@ namespace MyArmUI
         {
             m3dScene.Angle3 = Angle3Trackbar.Value;
         }
+
     }
 }

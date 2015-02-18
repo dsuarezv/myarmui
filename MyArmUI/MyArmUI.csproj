@@ -75,6 +75,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="LocalDepot\base.model">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="LocalDepot\Materials\DefaultMaterial.material">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

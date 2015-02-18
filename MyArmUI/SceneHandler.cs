@@ -25,6 +25,7 @@ namespace MyArmUI
         private Entity mRight;
         private Entity mTop;
         private Entity mBase;
+        private OrbitMouseController mCameraController;
 
 
         public double Angle1
@@ -66,13 +67,22 @@ namespace MyArmUI
 
         public void Setup()
         {
-            Content.LoadAssetFromDepot("LocalDepot/right.model", typeof(Mesh));
+            var scene = mControl.Scene;
 
             mRight = new Entity("right").AddComponent(new MeshRenderer("LocalDepot/right.model"));
-            mControl.Scene.AddEntity(mRight);
-
             mTop = new Entity("top").AddComponent(new MeshRenderer("LocalDepot/top.model"));
-            mControl.Scene.AddEntity(mTop);
+            mBase = new Entity("base").AddComponent(new MeshRenderer("LocalDepot/base.model"));
+
+            scene
+                .AddEntity(mRight)
+                .AddEntity(mTop)
+                .AddEntity(mBase)
+                .PerformSetup();
+
+            mCameraController = scene.Cameras["DefaultCamera"].GetComponent<OrbitMouseController>();
+            mCameraController.Distance = 600;
+
+            mRight.GetComponent<MeshRenderer>().Mesh.Transform = Matrix4.CreateRotationZ((float)(-90 * DegreesToRadians));
 
             UpdateArm();
         }
@@ -83,17 +93,22 @@ namespace MyArmUI
         {
             var matBottom = Matrix4.CreateRotationY((float)(mAngle1 * DegreesToRadians));
 
+            mBase.Transform.TransformMatrix = matBottom;
 
-            var matRight = 
-                Matrix4.CreateTranslation(0, (float)mLength1, 0) * 
-                Matrix4.CreateRotationZ((float)(mAngle2 * DegreesToRadians));
+            var baseMatRight = Matrix4.CreateRotationZ((float)(mAngle2 * DegreesToRadians));
+
+            var matRight =
+                baseMatRight *
+                Matrix4.CreateTranslation(0, (float)mLength1, 0) *
+                matBottom;
+                
             mRight.Transform.TransformMatrix = matRight;
 
             var matTop =
                 Matrix4.CreateRotationZ((float)(mAngle3 * DegreesToRadians)) *
                 Matrix4.CreateTranslation(0, (float)mLength2, 0);
 
-            mTop.Transform.TransformMatrix = matTop * matRight;
+            mTop.Transform.TransformMatrix = baseMatRight.Inverted() * matTop * matRight;
         }
     }
 }
