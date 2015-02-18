@@ -66,6 +66,16 @@ namespace AngleChecker
             mArm.ReadAngles();
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
         private void mArm_AnglesReceived(short a1, short a2, short rot, short gripRot)
         {
             Invoke(() => {
@@ -112,7 +122,7 @@ namespace AngleChecker
 
         private const double RadiansToDegrees = 180 / Math.PI;
 
-        private void xyControl1_InverseKinematicsSolver(int length, int height, double ArmA, double ArmC, out double rightAngle, out double leftAngle)
+        private void xyControl_InverseKinematicsSolver(int length, int height, double ArmA, double ArmC, out double rightAngle, out double leftAngle)
         {
             double ArmA2 = ArmA * ArmA;
             double ArmC2 = ArmC * ArmC;
@@ -130,7 +140,7 @@ namespace AngleChecker
             rightAngle = delta + gamma;
         }
 
-        private void xyControl1_KinematicSolved()
+        private void xyControl_KinematicSolved()
         {
             mArm.SetAngles(xyControl.Angle1, xyControl.Angle2, rotControl.Angle1, 0);
 
@@ -176,7 +186,7 @@ namespace AngleChecker
             int length = (int)Math.Sqrt(x * x + y * y);
 
             double a1, a2;
-            xyControl1_InverseKinematicsSolver(length, (int)xyControl.TargetPosition.Y, xyControl.Length1, xyControl.Length2, out a1, out a2);
+            xyControl_InverseKinematicsSolver(length, (int)xyControl.TargetPosition.Y, xyControl.Length1, xyControl.Length2, out a1, out a2);
 
             mArm.SetAngles(a1, a2, rotControl.Angle1, 0);
 
@@ -240,6 +250,7 @@ namespace AngleChecker
         {
             mArm.SaveConfiguration(mCalibrationFileName);
         }
+
 
     }
 }

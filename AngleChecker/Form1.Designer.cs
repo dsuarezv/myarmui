@@ -254,8 +254,8 @@
             this.xyControl.TabIndex = 0;
             this.xyControl.TargetPosition = ((System.Drawing.PointF)(resources.GetObject("xyControl.TargetPosition")));
             this.xyControl.Text = "xyControl1";
-            this.xyControl.KinematicSolutionNeeded += new AngleChecker.KinematicSolverDelegate(this.xyControl1_InverseKinematicsSolver);
-            this.xyControl.KinematicSolved += new AngleChecker.KinematicClickDelegate(this.xyControl1_KinematicSolved);
+            this.xyControl.KinematicSolutionNeeded += new AngleChecker.KinematicSolverDelegate(this.xyControl_InverseKinematicsSolver);
+            this.xyControl.KinematicSolved += new AngleChecker.KinematicClickDelegate(this.xyControl_KinematicSolved);
             // 
             // Form1
             // 
@@ -284,6 +284,8 @@
             this.Name = "Form1";
             this.Text = "MyArm basic controller";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.Pulse1Trackbar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pulse2Trackbar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pulse3Trackbar)).EndInit();
