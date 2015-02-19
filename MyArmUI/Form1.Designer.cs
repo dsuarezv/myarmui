@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.LeftPanel = new System.Windows.Forms.Panel();
+            this.DisconnectButton = new System.Windows.Forms.Button();
+            this.ConnectButton = new System.Windows.Forms.Button();
             this.Angle3Trackbar = new System.Windows.Forms.TrackBar();
             this.Angle2Trackbar = new System.Windows.Forms.TrackBar();
             this.Angle1Trackbar = new System.Windows.Forms.TrackBar();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.View3d = new Engine.WinFormsControl.EngineControl();
-            this.ConnectButton = new System.Windows.Forms.Button();
-            this.DisconnectButton = new System.Windows.Forms.Button();
             this.LeftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Angle3Trackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Angle2Trackbar)).BeginInit();
@@ -64,6 +65,28 @@
             this.LeftPanel.Name = "LeftPanel";
             this.LeftPanel.Size = new System.Drawing.Size(198, 622);
             this.LeftPanel.TabIndex = 1;
+            // 
+            // DisconnectButton
+            // 
+            this.DisconnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DisconnectButton.Location = new System.Drawing.Point(86, 7);
+            this.DisconnectButton.Name = "DisconnectButton";
+            this.DisconnectButton.Size = new System.Drawing.Size(75, 23);
+            this.DisconnectButton.TabIndex = 4;
+            this.DisconnectButton.Text = "Disconnect";
+            this.DisconnectButton.UseVisualStyleBackColor = true;
+            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
+            // 
+            // ConnectButton
+            // 
+            this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ConnectButton.Location = new System.Drawing.Point(4, 7);
+            this.ConnectButton.Name = "ConnectButton";
+            this.ConnectButton.Size = new System.Drawing.Size(75, 23);
+            this.ConnectButton.TabIndex = 3;
+            this.ConnectButton.Text = "Connect";
+            this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
             // Angle3Trackbar
             // 
@@ -121,28 +144,6 @@
             this.View3d.TabIndex = 3;
             this.View3d.SceneLoad += new System.Action<object, System.EventArgs>(this.View3d_SceneLoad);
             // 
-            // ConnectButton
-            // 
-            this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ConnectButton.Location = new System.Drawing.Point(4, 7);
-            this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(75, 23);
-            this.ConnectButton.TabIndex = 3;
-            this.ConnectButton.Text = "Connect";
-            this.ConnectButton.UseVisualStyleBackColor = true;
-            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
-            // 
-            // DisconnectButton
-            // 
-            this.DisconnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.DisconnectButton.Location = new System.Drawing.Point(86, 7);
-            this.DisconnectButton.Name = "DisconnectButton";
-            this.DisconnectButton.Size = new System.Drawing.Size(75, 23);
-            this.DisconnectButton.TabIndex = 4;
-            this.DisconnectButton.Text = "Disconnect";
-            this.DisconnectButton.UseVisualStyleBackColor = true;
-            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -153,6 +154,7 @@
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.LeftPanel);
             this.Controls.Add(this.TopPanel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "MyArm";
             this.LeftPanel.ResumeLayout(false);
