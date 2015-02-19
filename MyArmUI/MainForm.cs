@@ -35,6 +35,8 @@ namespace MyArmUI
             LoadConfiguration();
         }
 
+        
+
         void mClient_AnglesReceived(short a1, short a2, short rot, short gripRot)
         {
             m3dScene.Angle2 = 90 - mArm.CalibrationData.Right.GetAngleForSensorReading(a1);

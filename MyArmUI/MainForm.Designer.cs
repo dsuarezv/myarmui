@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.LeftPanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.DisconnectButton = new System.Windows.Forms.Button();
             this.ConnectButton = new System.Windows.Forms.Button();
             this.Angle3Trackbar = new System.Windows.Forms.TrackBar();
@@ -38,7 +39,7 @@
             this.Angle1Trackbar = new System.Windows.Forms.TrackBar();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.View3d = new Engine.WinFormsControl.EngineControl();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cameraView1 = new MyArmUI.CameraView();
             this.LeftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Angle3Trackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Angle2Trackbar)).BeginInit();
@@ -56,6 +57,7 @@
             // 
             // LeftPanel
             // 
+            this.LeftPanel.Controls.Add(this.cameraView1);
             this.LeftPanel.Controls.Add(this.button1);
             this.LeftPanel.Controls.Add(this.DisconnectButton);
             this.LeftPanel.Controls.Add(this.ConnectButton);
@@ -67,6 +69,17 @@
             this.LeftPanel.Name = "LeftPanel";
             this.LeftPanel.Size = new System.Drawing.Size(198, 622);
             this.LeftPanel.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(4, 205);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Eval";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.EvalBButton_click);
             // 
             // DisconnectButton
             // 
@@ -146,18 +159,17 @@
             this.View3d.TabIndex = 3;
             this.View3d.SceneLoad += new System.Action<object, System.EventArgs>(this.View3d_SceneLoad);
             // 
-            // button1
+            // cameraView1
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(4, 205);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Eval";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.EvalBButton_click);
+            this.cameraView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cameraView1.Location = new System.Drawing.Point(3, 235);
+            this.cameraView1.Name = "cameraView1";
+            this.cameraView1.Size = new System.Drawing.Size(189, 375);
+            this.cameraView1.TabIndex = 6;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -168,7 +180,7 @@
             this.Controls.Add(this.LeftPanel);
             this.Controls.Add(this.TopPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "MyArm";
             this.LeftPanel.ResumeLayout(false);
             this.LeftPanel.PerformLayout();
@@ -191,6 +203,7 @@
         private System.Windows.Forms.Button DisconnectButton;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button button1;
+        private CameraView cameraView1;
     }
 }
 
