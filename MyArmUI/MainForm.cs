@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using System.Windows.Forms;
 
 namespace MyArmUI
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private const int SamplesPerSecond = 10;
 
@@ -23,7 +24,7 @@ namespace MyArmUI
         private bool mWantsReads;
 
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -104,5 +105,28 @@ namespace MyArmUI
             }
         }
 
+
+        private void EnumerateWebcams()
+        {
+            var c1 = new ManagementClass("Win32_VideoController");
+
+            foreach (ManagementObject ob in c1.GetInstances())
+            {
+                foreach (PropertyData pd in ob.Properties)
+                {
+
+                    if (pd.Name != null)
+                        Console.WriteLine(" Name " + pd.Name);
+
+                    if (pd.Value != null)
+                        Console.WriteLine(" Value " + pd.Value);
+                }
+            }
+        }
+
+        private void EvalBButton_click(object sender, EventArgs e)
+        {
+            EnumerateWebcams();
+        }
     }
 }

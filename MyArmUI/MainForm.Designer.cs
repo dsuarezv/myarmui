@@ -1,6 +1,6 @@
 ﻿namespace MyArmUI
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.LeftPanel = new System.Windows.Forms.Panel();
             this.DisconnectButton = new System.Windows.Forms.Button();
@@ -38,6 +38,7 @@
             this.Angle1Trackbar = new System.Windows.Forms.TrackBar();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.View3d = new Engine.WinFormsControl.EngineControl();
+            this.button1 = new System.Windows.Forms.Button();
             this.LeftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Angle3Trackbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Angle2Trackbar)).BeginInit();
@@ -55,6 +56,7 @@
             // 
             // LeftPanel
             // 
+            this.LeftPanel.Controls.Add(this.button1);
             this.LeftPanel.Controls.Add(this.DisconnectButton);
             this.LeftPanel.Controls.Add(this.ConnectButton);
             this.LeftPanel.Controls.Add(this.Angle3Trackbar);
@@ -144,6 +146,17 @@
             this.View3d.TabIndex = 3;
             this.View3d.SceneLoad += new System.Action<object, System.EventArgs>(this.View3d_SceneLoad);
             // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(4, 205);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Eval";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.EvalBButton_click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,6 +190,7 @@
         private System.Windows.Forms.TrackBar Angle2Trackbar;
         private System.Windows.Forms.Button DisconnectButton;
         private System.Windows.Forms.Button ConnectButton;
+        private System.Windows.Forms.Button button1;
     }
 }
 
