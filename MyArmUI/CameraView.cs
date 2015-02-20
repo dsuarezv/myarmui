@@ -14,6 +14,7 @@ namespace MyArmUI
 {
     public partial class CameraView : UserControl, IDisposable
     {
+        private ImageMatcher mMatcher;
         private Capture mCapture;
         private bool mIsStarted = false;
         private string mTargetImageFileName = "CvImages/top-bw.png";
@@ -30,9 +31,11 @@ namespace MyArmUI
         {
             if (mTargetImage != null) mTargetImage.Dispose();
             if (mCapture != null) mCapture.Dispose();
+            if (mMatcher != null) mMatcher.Dispose();
 
             mTargetImage = null;
             mCapture = null;
+            mMatcher = null;
 
             if (disposing && (components != null))
             {
@@ -52,9 +55,12 @@ namespace MyArmUI
             else
             {
                 mTargetImage = new Image<Gray, byte>(mTargetImageFileName);
+                mMatcher = new ImageMatcher(mTargetImage);
+
                 mCapture = new Capture(mCaptureDeviceIndex);
                 mCapture.ImageGrabbed += FrameCaptured;
                 mCapture.Start();
+                
                 StartCaptureButton.Text = "Start capture";
                 mIsStarted = true;
             }
@@ -64,11 +70,16 @@ namespace MyArmUI
         private void FrameCaptured(object sender, EventArgs e)
         {
             Image<Gray, Byte> frame = mCapture.RetrieveGrayFrame();
+
             
+
             long matchTime;
-            var result = CameraMatches.Draw(mTargetImage, frame, out matchTime);
-            
-            imageBox1.Image = result;
+            var result = mMatcher.Draw(frame, out matchTime);
+
+            //if (imageBox1.Image != null) imageBox1.Image.Dispose();
+            imageBox1.Image = frame;
+
+            frame.Dispose();
         }
 
     }
