@@ -16,7 +16,7 @@ namespace MyArmUI
         private EngineControl mControl;
         private double mAngle1 = 0; 
         private double mAngle2 = 0;
-        private double mAngle3 = 10;
+        private double mAngle3 = 0;
         private double mLength1 = 100;
         private double mLength2 = 148;
         private double mLength3 = 161;
@@ -37,7 +37,7 @@ namespace MyArmUI
         public double Angle2
         {
             get { return mAngle2; }
-            set { mAngle2 = value; UpdateArm(); }
+            set { mAngle2 = 90 - value; UpdateArm(); }
         }
 
         public double Angle3
@@ -80,18 +80,18 @@ namespace MyArmUI
                 .PerformSetup();
 
             mCameraController = scene.Cameras["DefaultCamera"].GetComponent<OrbitMouseController>();
+            mCameraController.Target = new Vector3(-100, 100, 000);
             mCameraController.Distance = 600;
+
 
             mRight.GetComponent<MeshRenderer>().Mesh.Transform = Matrix4.CreateRotationZ((float)(-90 * DegreesToRadians));
 
             UpdateArm();
         }
 
-
-
         private void UpdateArm()
         {
-            var matBottom = Matrix4.CreateRotationY((float)(mAngle1 * DegreesToRadians));
+            var matBottom = Matrix4.CreateRotationY((float)(((mAngle1)) * DegreesToRadians));
 
             mBase.Transform.TransformMatrix = matBottom;
 

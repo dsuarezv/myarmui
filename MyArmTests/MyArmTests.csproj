@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,10 +51,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AngleChecker\AngleChecker.csproj">
+      <Project>{ad6c474c-ea8c-49bb-842a-6353e0b560d6}</Project>
+      <Name>AngleChecker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyArmClient\MyArmClient.csproj">
       <Project>{065bae93-3491-4b84-9d70-fb3be502ad82}</Project>
       <Name>MyArmClient</Name>

@@ -35,15 +35,6 @@
     <ApplicationIcon>11.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV">
-      <HintPath>..\libs\opencv\Emgu.CV.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.CV.UI">
-      <HintPath>..\libs\opencv\Emgu.CV.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.Util">
-      <HintPath>..\libs\opencv\Emgu.Util.dll</HintPath>
-    </Reference>
     <Reference Include="Engine.Core">
       <HintPath>..\..\TacticalCommand\Engine.WinFormsControl\bin\Debug\Engine.Core.dll</HintPath>
     </Reference>
@@ -68,12 +59,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageMatcher.cs" />
-    <Compile Include="CameraView.cs">
+    <Compile Include="ArmInterfaceControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CameraView.Designer.cs">
-      <DependentUpon>CameraView.cs</DependentUpon>
+    <Compile Include="ArmInterfaceControl.Designer.cs">
+      <DependentUpon>ArmInterfaceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CalibrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalibrationForm.Designer.cs">
+      <DependentUpon>CalibrationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ICoordinatesProvider.cs" />
+    <Compile Include="LogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogForm.Designer.cs">
+      <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -81,24 +84,52 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mouse3dController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SceneHandler.cs" />
-    <EmbeddedResource Include="CameraView.resx">
-      <DependentUpon>CameraView.cs</DependentUpon>
+    <Compile Include="PathRecorderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PathRecorderControl.Designer.cs">
+      <DependentUpon>PathRecorderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpeedControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SpeedControl.Designer.cs">
+      <DependentUpon>SpeedControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ArmInterfaceControl.resx">
+      <DependentUpon>ArmInterfaceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CalibrationForm.resx">
+      <DependentUpon>CalibrationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogForm.resx">
+      <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="PathRecorderControl.resx">
+      <DependentUpon>PathRecorderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpeedControl.resx">
+      <DependentUpon>SpeedControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="LocalDepot\base.model">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -128,19 +159,32 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AngleChecker\AngleChecker.csproj">
+      <Project>{ad6c474c-ea8c-49bb-842a-6353e0b560d6}</Project>
+      <Name>AngleChecker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyArmClient\MyArmClient.csproj">
       <Project>{065bae93-3491-4b84-9d70-fb3be502ad82}</Project>
       <Name>MyArmClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MG995servos.xml">
+    <None Include="ArmConfigurations\MG995servos.arm.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="11.ico" />
-    <None Include="CvImages\top-bw.png">
+    <None Include="Resources\1-90.JPG" />
+    <None Include="Resources\1+901.JPG" />
+    <None Include="Resources\1+90.JPG" />
+    <None Include="Resources\3-90.JPG" />
+    <None Include="Resources\3+45.JPG" />
+    <None Include="Resources\2+135.JPG" />
+    <None Include="Resources\2+90.JPG" />
+    <None Include="Resources\2+0.JPG" />
+    <None Include="Resources\1+0.JPG" />
+    <None Include="ArmConfigurations\HDPowerServos.arm.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

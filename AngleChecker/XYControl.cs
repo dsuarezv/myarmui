@@ -115,9 +115,6 @@ namespace AngleChecker
 
         protected override void OnPaint(PaintEventArgs pe)
         {
-            // Debug info
-            if (ShowDebugInfo) pe.Graphics.DrawString(GetLegend(), Font, Brushes.DarkGray, 0, 0);
-
             // Apply transformation for centering and any possible rotation correction.
             pe.Graphics.Transform = Transform;
 
@@ -128,6 +125,13 @@ namespace AngleChecker
 
             // Ground
             pe.Graphics.DrawLine(Pens.Maroon, 85, GroundLevel, 280, GroundLevel);
+
+            // Reset transform
+            pe.Graphics.Transform = new Matrix();
+
+            // Debug info (last step, since it depends on calculations made before)
+            if (ShowDebugInfo) pe.Graphics.DrawString(GetLegend(), Font, Brushes.DarkGray, 0, 0);
+
         }
 
         private void DrawArm(PaintEventArgs pe)

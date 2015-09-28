@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,22 +16,42 @@ namespace MyArmClient
     {
 
         public event AnglesDelegate AnglesReceived;
+        public event Action<object, byte> OutOfBandDataReceived;
+
+
+        public ConcurrentQueue<byte> OutOfBandData
+        {
+            get { return mOutOfBandBytes; }
+        }
 
 
         public AxesCalibration CalibrationData
         {
             get { return mCalibrationData; }
+            set { mCalibrationData = value; }
+        }
+
+        public RobotAngles CurrentAngles
+        {
+            get { return mCurrentAngles; }
         }
 
 
-        public Client(string comPort)
+        
+        public static string[] GetComPorts()
         {
-            mComPortName = comPort;
+            return SerialPort.GetPortNames();
+        }
+
+        
+        public Client()
+        {
+            
         }
 
         public void Dispose()
         {
-            // Dave: terminate reading thread
+            // Dave: terminate reading thread. Careful with the Dispose call in the trycatch (would deadlock)
 
             lock (mWriteLock)
             {
@@ -43,10 +64,11 @@ namespace MyArmClient
         }
 
 
-        public void Attach()
+        public void Attach(string comPort)
         {
-            if (mPort != null) Detach();
+            if (mPort != null) return;
 
+            mComPortName = comPort;
             mPort = new SerialPort(mComPortName, 115200);
             mPort.Open();
             mPortWriter = new BinaryWriter(mPort.BaseStream);
@@ -94,31 +116,34 @@ namespace MyArmClient
             }
         }
 
-        public void Ping()
+        public void GetVersion()
         {
             if (!IsConnected()) return;
 
             lock (mWriteLock)
             {
-                WriteHeader(PacketType.Ping);
+                WriteHeader(PacketType.GetVersion);
                 WriteCrc(null);
             }
         }
 
-        public void SetAngles(double a1, double a2, double rotation, double gripperRotation)
+        public void SetAngles(RobotAngles angles, short timeInMs = DefaultMovementTime)
         {
+            mCurrentAngles = angles;
+
             if (!IsConnected()) return;
 
-            if (double.IsNaN(a1) || double.IsNaN(a2) || double.IsNaN(rotation) || double.IsNaN(gripperRotation)) return;
+            if (angles.IsNaN()) return;
 
             SetPulses(
-                mCalibrationData.Right.GetPulsesForAngle(a1),
-                mCalibrationData.Left.GetPulsesForAngle(a2),
-                mCalibrationData.Rotation.GetPulsesForAngle(rotation),
-                mCalibrationData.Gripper.GetPulsesForAngle(gripperRotation));
+                mCalibrationData.Right.GetPulsesForAngle(angles.A2),
+                mCalibrationData.Left.GetPulsesForAngle(angles.A3),
+                mCalibrationData.Rotation.GetPulsesForAngle(angles.A1),
+                mCalibrationData.Gripper.GetPulsesForAngle(angles.A4), 
+                0, 0, timeInMs);
         }
 
-        public void SetPulses(Int16 a1, Int16 a2, Int16 rotation, Int16 gripperRotation)
+        public void SetPulses(Int16 a2, Int16 a3, Int16 a1, Int16 a4, Int16 a5, Int16 a6, int timeInMs)
         {
             if (!IsConnected()) return;
 
@@ -127,8 +152,11 @@ namespace MyArmClient
                 WriteHeader(PacketType.SetAngles);
                 mPortWriter.Write(a1);
                 mPortWriter.Write(a2);
-                mPortWriter.Write(rotation);
-                mPortWriter.Write(gripperRotation);
+                mPortWriter.Write(a3);
+                mPortWriter.Write(a4);
+                mPortWriter.Write(a5);
+                mPortWriter.Write(a6);
+                mPortWriter.Write((Int16)timeInMs);
 
                 WriteCrc(null);
             }
@@ -143,6 +171,29 @@ namespace MyArmClient
                 WriteHeader(PacketType.GetAngles);
                 WriteCrc(null);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="speed">0 = full speed, 1-255 slower to faster</param>
+        public void SetSpeed(int speed)
+        {
+            if (!IsConnected()) return;
+
+            lock (mWriteLock)
+            {
+                WriteHeader(PacketType.SetSpeed);
+                mPortWriter.Write((byte)speed);
+                WriteCrc(null);
+            }
+            
+        }
+
+
+        public void PlayPath(Path path)
+        {
+            path.Play(this);
         }
 
 
@@ -167,6 +218,7 @@ namespace MyArmClient
         private void WriteCrc(byte[] data)
         {
             // TBD
+            mPortWriter.Write((byte)0);
 
             Flush();
         }
@@ -193,9 +245,13 @@ namespace MyArmClient
         }
 
 
-        private void ProcessPingResponse(BinaryReader r)
+        private void ProcessGetVersionResponse(BinaryReader r)
         {
-            // Notify ping response received
+            var version = r.ReadByte();
+            if (!CheckCrc(new byte[] { version })) return;
+
+            var robotType = version >> 5;
+            var firmwareVersion = version & 0x1F;  // 1F = 00011111
         }
 
 
@@ -236,7 +292,11 @@ namespace MyArmClient
         private void ProcessPacket(BinaryReader r)
         {
             byte b = r.ReadByte();
-            if (b != HeaderMagic) return;
+            if (b != HeaderMagic)
+            {
+                ProcessOutOfBandByte(b);
+                return;
+            }
 
             var typeByte = r.ReadByte();
             PacketType type = (PacketType)typeByte;
@@ -247,21 +307,30 @@ namespace MyArmClient
                     ProcessAnglesResponse(r);
                     break;
 
-                case PacketType.PingResponse:
-                    ProcessPingResponse(r);
+                case PacketType.GetVersionResponse:
+                    ProcessGetVersionResponse(r);
                     break;
 
                 default:
                     // discard unknown packet
+                    ProcessOutOfBandByte(b);
+                    ProcessOutOfBandByte(typeByte);
                     break;
             }
         }
 
+        private void ProcessOutOfBandByte(byte b)
+        {
+            mOutOfBandBytes.Enqueue(b);
+
+            if (OutOfBandDataReceived != null) OutOfBandDataReceived(this, b);
+        }
 
 
 
-       
+        private ConcurrentQueue<byte> mOutOfBandBytes = new ConcurrentQueue<byte>();
         private const byte HeaderMagic = 255;
+        private const int DefaultMovementTime = 1000;
 
         private enum PacketType
         {
@@ -270,8 +339,9 @@ namespace MyArmClient
             Engage = 252,
             Disengage = 251,
             AnglesResponse = 250,
-            Ping = 249,
-            PingResponse = 248
+            GetVersion = 249,
+            GetVersionResponse = 248,
+            SetSpeed = 247
         }
 
         private AxesCalibration mCalibrationData = new AxesCalibration();
@@ -279,6 +349,7 @@ namespace MyArmClient
         private SerialPort mPort;
         private BinaryWriter mPortWriter;
         private object mWriteLock = new Object();
+        private RobotAngles mCurrentAngles;
     }
 
 

@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyArmTests", "MyArmTests\My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyArmUI", "MyArmUI\MyArmUI.csproj", "{70FC196F-8546-48C9-8117-7EA9E308C784}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyArmWpf", "MyArmWpf\MyArmWpf.csproj", "{084AE46B-56D3-46BE-9084-5864F420447F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino.SerialProtocol", "Arduino.SerialProtocol\Arduino.SerialProtocol.csproj", "{CD9BC682-EDCA-4E76-96D8-A06C412A9EC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{70FC196F-8546-48C9-8117-7EA9E308C784}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70FC196F-8546-48C9-8117-7EA9E308C784}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70FC196F-8546-48C9-8117-7EA9E308C784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084AE46B-56D3-46BE-9084-5864F420447F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084AE46B-56D3-46BE-9084-5864F420447F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084AE46B-56D3-46BE-9084-5864F420447F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084AE46B-56D3-46BE-9084-5864F420447F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD9BC682-EDCA-4E76-96D8-A06C412A9EC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD9BC682-EDCA-4E76-96D8-A06C412A9EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD9BC682-EDCA-4E76-96D8-A06C412A9EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD9BC682-EDCA-4E76-96D8-A06C412A9EC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

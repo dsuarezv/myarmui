@@ -105,7 +105,7 @@
             // Pulse1Trackbar
             // 
             this.Pulse1Trackbar.Location = new System.Drawing.Point(16, 83);
-            this.Pulse1Trackbar.Maximum = 2400;
+            this.Pulse1Trackbar.Maximum = 3000;
             this.Pulse1Trackbar.Minimum = 600;
             this.Pulse1Trackbar.Name = "Pulse1Trackbar";
             this.Pulse1Trackbar.Size = new System.Drawing.Size(212, 45);
@@ -117,7 +117,7 @@
             // Pulse2Trackbar
             // 
             this.Pulse2Trackbar.Location = new System.Drawing.Point(235, 83);
-            this.Pulse2Trackbar.Maximum = 2400;
+            this.Pulse2Trackbar.Maximum = 3000;
             this.Pulse2Trackbar.Minimum = 600;
             this.Pulse2Trackbar.Name = "Pulse2Trackbar";
             this.Pulse2Trackbar.Size = new System.Drawing.Size(212, 45);
@@ -129,7 +129,7 @@
             // Pulse3Trackbar
             // 
             this.Pulse3Trackbar.Location = new System.Drawing.Point(455, 83);
-            this.Pulse3Trackbar.Maximum = 2400;
+            this.Pulse3Trackbar.Maximum = 3000;
             this.Pulse3Trackbar.Minimum = 600;
             this.Pulse3Trackbar.Name = "Pulse3Trackbar";
             this.Pulse3Trackbar.Size = new System.Drawing.Size(212, 45);

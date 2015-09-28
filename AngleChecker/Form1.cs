@@ -18,7 +18,7 @@ namespace AngleChecker
         private string mCalibrationFileName = "MG995servos.xml";
 
 
-        private Client mArm = new Client("COM3");
+        private Client mArm = new Client();
         private bool mWantsReads;
 
 
@@ -45,9 +45,9 @@ namespace AngleChecker
 
         private void ConnectButton_Click(object sender, EventArgs e)
         {
-            mArm.Attach();
+            mArm.Attach("COM3");
 
-            LaunchReaderThread();
+            //LaunchReaderThread();
         }
 
         private void DisconnectButton_Click(object sender, EventArgs e)
@@ -122,7 +122,7 @@ namespace AngleChecker
 
         private const double RadiansToDegrees = 180 / Math.PI;
 
-        private void xyControl_InverseKinematicsSolver(int length, int height, double ArmA, double ArmC, out double rightAngle, out double leftAngle)
+        public void xyControl_InverseKinematicsSolver(int length, int height, double ArmA, double ArmC, out double rightAngle, out double leftAngle)
         {
             double ArmA2 = ArmA * ArmA;
             double ArmC2 = ArmC * ArmC;
@@ -142,7 +142,9 @@ namespace AngleChecker
 
         private void xyControl_KinematicSolved()
         {
-            mArm.SetAngles(xyControl.Angle1, xyControl.Angle2, rotControl.Angle1, 0);
+            var angles = new RobotAngles() { A1 = rotControl.Angle1, A2 = xyControl.Angle1, A3 = xyControl.Angle2 };
+
+            mArm.SetAngles(angles);
 
             UpdateAnglesLabels();
 
@@ -188,7 +190,8 @@ namespace AngleChecker
             double a1, a2;
             xyControl_InverseKinematicsSolver(length, (int)xyControl.TargetPosition.Y, xyControl.Length1, xyControl.Length2, out a1, out a2);
 
-            mArm.SetAngles(a1, a2, rotControl.Angle1, 0);
+            var angles = new RobotAngles() { A1 = rotControl.Angle1, A2 = a1, A3 = a2 };
+            mArm.SetAngles(angles);
 
             UpdateAnglesLabels();
 
@@ -230,7 +233,7 @@ namespace AngleChecker
 
         private void UpdatePulses()
         {
-            mArm.SetPulses((Int16)Pulse1Trackbar.Value, (Int16)Pulse2Trackbar.Value, (Int16)Pulse3Trackbar.Value, 0);
+            mArm.SetPulses((Int16)Pulse1Trackbar.Value, (Int16)Pulse2Trackbar.Value, (Int16)Pulse3Trackbar.Value, 0, 0, 0, 500);
             PulsesLabel.Text = string.Format("{0}, {1}, {2}", Pulse1Trackbar.Value, Pulse2Trackbar.Value, Pulse3Trackbar.Value);
         }
 
@@ -239,6 +242,8 @@ namespace AngleChecker
             if (!File.Exists(mCalibrationFileName)) return;
 
             mArm.LoadConfiguration(mCalibrationFileName);
+
+
         }
 
         private void Loadbutton_Click(object sender, EventArgs e)

@@ -28,22 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            MyArmClient.Point3 point31 = new MyArmClient.Point3();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.LeftPanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.DisconnectButton = new System.Windows.Forms.Button();
-            this.ConnectButton = new System.Windows.Forms.Button();
-            this.Angle3Trackbar = new System.Windows.Forms.TrackBar();
-            this.Angle2Trackbar = new System.Windows.Forms.TrackBar();
-            this.Angle1Trackbar = new System.Windows.Forms.TrackBar();
+            this.pathRecorderControl1 = new MyArmUI.PathRecorderControl();
+            this.label1 = new System.Windows.Forms.Label();
+            this.armIface = new MyArmUI.ArmInterfaceControl();
+            this.speedControl1 = new MyArmUI.SpeedControl();
+            this.A1Label = new System.Windows.Forms.Label();
+            this.mouse3dController1 = new MyArmUI.Mouse3dController();
+            this.GripperAngleTrackbar = new System.Windows.Forms.TrackBar();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.View3d = new Engine.WinFormsControl.EngineControl();
-            this.cameraView1 = new MyArmUI.CameraView();
             this.LeftPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Angle3Trackbar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Angle2Trackbar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Angle1Trackbar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GripperAngleTrackbar)).BeginInit();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -51,100 +50,110 @@
             this.TopPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TopPanel.Location = new System.Drawing.Point(0, 0);
             this.TopPanel.Name = "TopPanel";
-            this.TopPanel.Size = new System.Drawing.Size(884, 39);
+            this.TopPanel.Size = new System.Drawing.Size(1266, 39);
             this.TopPanel.TabIndex = 0;
             this.TopPanel.Visible = false;
             // 
             // LeftPanel
             // 
-            this.LeftPanel.Controls.Add(this.cameraView1);
-            this.LeftPanel.Controls.Add(this.button1);
-            this.LeftPanel.Controls.Add(this.DisconnectButton);
-            this.LeftPanel.Controls.Add(this.ConnectButton);
-            this.LeftPanel.Controls.Add(this.Angle3Trackbar);
-            this.LeftPanel.Controls.Add(this.Angle2Trackbar);
-            this.LeftPanel.Controls.Add(this.Angle1Trackbar);
+            this.LeftPanel.Controls.Add(this.pathRecorderControl1);
+            this.LeftPanel.Controls.Add(this.label1);
+            this.LeftPanel.Controls.Add(this.armIface);
+            this.LeftPanel.Controls.Add(this.speedControl1);
+            this.LeftPanel.Controls.Add(this.A1Label);
+            this.LeftPanel.Controls.Add(this.mouse3dController1);
+            this.LeftPanel.Controls.Add(this.GripperAngleTrackbar);
             this.LeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.LeftPanel.Location = new System.Drawing.Point(0, 39);
             this.LeftPanel.Name = "LeftPanel";
-            this.LeftPanel.Size = new System.Drawing.Size(198, 622);
+            this.LeftPanel.Size = new System.Drawing.Size(485, 688);
             this.LeftPanel.TabIndex = 1;
             // 
-            // button1
+            // pathRecorderControl1
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(4, 205);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Eval";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.EvalBButton_click);
+            this.pathRecorderControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathRecorderControl1.Arm = null;
+            this.pathRecorderControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(151)))), ((int)(((byte)(151)))));
+            this.pathRecorderControl1.CoordinatesProvider = null;
+            this.pathRecorderControl1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pathRecorderControl1.Location = new System.Drawing.Point(0, 436);
+            this.pathRecorderControl1.MinimumSize = new System.Drawing.Size(300, 226);
+            this.pathRecorderControl1.Name = "pathRecorderControl1";
+            this.pathRecorderControl1.Size = new System.Drawing.Size(484, 252);
+            this.pathRecorderControl1.TabIndex = 16;
             // 
-            // DisconnectButton
+            // label1
             // 
-            this.DisconnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.DisconnectButton.Location = new System.Drawing.Point(86, 7);
-            this.DisconnectButton.Name = "DisconnectButton";
-            this.DisconnectButton.Size = new System.Drawing.Size(75, 23);
-            this.DisconnectButton.TabIndex = 4;
-            this.DisconnectButton.Text = "Disconnect";
-            this.DisconnectButton.UseVisualStyleBackColor = true;
-            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(208, 83);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 15);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Gripper";
             // 
-            // ConnectButton
+            // armIface
             // 
-            this.ConnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ConnectButton.Location = new System.Drawing.Point(4, 7);
-            this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(75, 23);
-            this.ConnectButton.TabIndex = 3;
-            this.ConnectButton.Text = "Connect";
-            this.ConnectButton.UseVisualStyleBackColor = true;
-            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            this.armIface.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.armIface.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.armIface.Location = new System.Drawing.Point(0, 0);
+            this.armIface.Name = "armIface";
+            this.armIface.Size = new System.Drawing.Size(484, 70);
+            this.armIface.TabIndex = 14;
             // 
-            // Angle3Trackbar
+            // speedControl1
             // 
-            this.Angle3Trackbar.LargeChange = 45;
-            this.Angle3Trackbar.Location = new System.Drawing.Point(3, 154);
-            this.Angle3Trackbar.Maximum = 180;
-            this.Angle3Trackbar.Minimum = -180;
-            this.Angle3Trackbar.Name = "Angle3Trackbar";
-            this.Angle3Trackbar.Size = new System.Drawing.Size(189, 45);
-            this.Angle3Trackbar.TabIndex = 2;
-            this.Angle3Trackbar.TickFrequency = 45;
-            this.Angle3Trackbar.ValueChanged += new System.EventHandler(this.Angle3Trackbar_ValueChanged);
+            this.speedControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.speedControl1.Arm = null;
+            this.speedControl1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.speedControl1.Location = new System.Drawing.Point(0, 371);
+            this.speedControl1.Name = "speedControl1";
+            this.speedControl1.Size = new System.Drawing.Size(479, 59);
+            this.speedControl1.TabIndex = 13;
             // 
-            // Angle2Trackbar
+            // A1Label
             // 
-            this.Angle2Trackbar.LargeChange = 45;
-            this.Angle2Trackbar.Location = new System.Drawing.Point(3, 103);
-            this.Angle2Trackbar.Maximum = 180;
-            this.Angle2Trackbar.Minimum = -180;
-            this.Angle2Trackbar.Name = "Angle2Trackbar";
-            this.Angle2Trackbar.Size = new System.Drawing.Size(189, 45);
-            this.Angle2Trackbar.TabIndex = 1;
-            this.Angle2Trackbar.TickFrequency = 45;
-            this.Angle2Trackbar.ValueChanged += new System.EventHandler(this.Angle2Trackbar_ValueChanged);
+            this.A1Label.AutoSize = true;
+            this.A1Label.Location = new System.Drawing.Point(323, 104);
+            this.A1Label.Name = "A1Label";
+            this.A1Label.Size = new System.Drawing.Size(17, 15);
+            this.A1Label.TabIndex = 10;
+            this.A1Label.Text = "--";
             // 
-            // Angle1Trackbar
+            // mouse3dController1
             // 
-            this.Angle1Trackbar.LargeChange = 45;
-            this.Angle1Trackbar.Location = new System.Drawing.Point(3, 52);
-            this.Angle1Trackbar.Maximum = 180;
-            this.Angle1Trackbar.Minimum = -180;
-            this.Angle1Trackbar.Name = "Angle1Trackbar";
-            this.Angle1Trackbar.Size = new System.Drawing.Size(189, 45);
-            this.Angle1Trackbar.TabIndex = 0;
-            this.Angle1Trackbar.TickFrequency = 45;
-            this.Angle1Trackbar.ValueChanged += new System.EventHandler(this.Angle1Trackbar_ValueChanged);
+            this.mouse3dController1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mouse3dController1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mouse3dController1.Location = new System.Drawing.Point(4, 138);
+            this.mouse3dController1.Name = "mouse3dController1";
+            this.mouse3dController1.Position = point31;
+            this.mouse3dController1.Size = new System.Drawing.Size(475, 250);
+            this.mouse3dController1.TabIndex = 6;
+            this.mouse3dController1.Text = "mouse3dController1";
+            this.mouse3dController1.PositionChanged += new System.Action<object, MyArmClient.Point3>(this.mouse3dController1_PositionChanged);
+            // 
+            // GripperAngleTrackbar
+            // 
+            this.GripperAngleTrackbar.LargeChange = 45;
+            this.GripperAngleTrackbar.Location = new System.Drawing.Point(136, 101);
+            this.GripperAngleTrackbar.Maximum = 90;
+            this.GripperAngleTrackbar.Minimum = -90;
+            this.GripperAngleTrackbar.Name = "GripperAngleTrackbar";
+            this.GripperAngleTrackbar.Size = new System.Drawing.Size(189, 45);
+            this.GripperAngleTrackbar.TabIndex = 0;
+            this.GripperAngleTrackbar.TickFrequency = 10;
+            this.GripperAngleTrackbar.ValueChanged += new System.EventHandler(this.GripperAngleTrackbar_ValueChanged);
             // 
             // splitter1
             // 
             this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
-            this.splitter1.Location = new System.Drawing.Point(198, 39);
+            this.splitter1.Location = new System.Drawing.Point(485, 39);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(4, 622);
+            this.splitter1.Size = new System.Drawing.Size(4, 688);
             this.splitter1.TabIndex = 2;
             this.splitter1.TabStop = false;
             // 
@@ -153,40 +162,29 @@
             this.View3d.DepotPath = null;
             this.View3d.Dock = System.Windows.Forms.DockStyle.Fill;
             this.View3d.DrawGrid = true;
-            this.View3d.Location = new System.Drawing.Point(202, 39);
+            this.View3d.Location = new System.Drawing.Point(489, 39);
             this.View3d.Name = "View3d";
-            this.View3d.Size = new System.Drawing.Size(682, 622);
+            this.View3d.Size = new System.Drawing.Size(777, 688);
             this.View3d.TabIndex = 3;
             this.View3d.SceneLoad += new System.Action<object, System.EventArgs>(this.View3d_SceneLoad);
             // 
-            // cameraView1
-            // 
-            this.cameraView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cameraView1.Location = new System.Drawing.Point(3, 235);
-            this.cameraView1.Name = "cameraView1";
-            this.cameraView1.Size = new System.Drawing.Size(189, 375);
-            this.cameraView1.TabIndex = 6;
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(151)))), ((int)(((byte)(151)))), ((int)(((byte)(151)))));
-            this.ClientSize = new System.Drawing.Size(884, 661);
+            this.ClientSize = new System.Drawing.Size(1266, 727);
             this.Controls.Add(this.View3d);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.LeftPanel);
             this.Controls.Add(this.TopPanel);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "MyArm";
             this.LeftPanel.ResumeLayout(false);
             this.LeftPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Angle3Trackbar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Angle2Trackbar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Angle1Trackbar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GripperAngleTrackbar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -197,13 +195,13 @@
         private System.Windows.Forms.Panel LeftPanel;
         private System.Windows.Forms.Splitter splitter1;
         private Engine.WinFormsControl.EngineControl View3d;
-        private System.Windows.Forms.TrackBar Angle1Trackbar;
-        private System.Windows.Forms.TrackBar Angle3Trackbar;
-        private System.Windows.Forms.TrackBar Angle2Trackbar;
-        private System.Windows.Forms.Button DisconnectButton;
-        private System.Windows.Forms.Button ConnectButton;
-        private System.Windows.Forms.Button button1;
-        private CameraView cameraView1;
+        private System.Windows.Forms.TrackBar GripperAngleTrackbar;
+        private Mouse3dController mouse3dController1;
+        private System.Windows.Forms.Label A1Label;
+        private SpeedControl speedControl1;
+        private ArmInterfaceControl armIface;
+        private System.Windows.Forms.Label label1;
+        private PathRecorderControl pathRecorderControl1;
     }
 }
 

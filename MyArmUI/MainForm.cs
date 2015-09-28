@@ -1,4 +1,5 @@
-﻿using Engine.Core;
+﻿using AngleChecker;
+using Engine.Core;
 using MyArmClient;
 using System;
 using System.Collections.Generic;
@@ -18,30 +19,28 @@ namespace MyArmUI
     {
         private const int SamplesPerSecond = 10;
 
-        private string mCalibrationFileName = "MG995servos.xml";
         private SceneHandler m3dScene;
-        private Client mArm;
         private bool mWantsReads;
 
 
         public MainForm()
         {
             InitializeComponent();
-
             m3dScene = new SceneHandler(View3d);
-            mArm = new Client("COM3");
-            mArm.AnglesReceived += mClient_AnglesReceived;
-
-            LoadConfiguration();
+            speedControl1.Arm = armIface.Arm;
+            pathRecorderControl1.Arm = armIface.Arm;
+            pathRecorderControl1.CoordinatesProvider = mouse3dController1;
+            armIface.Arm.AnglesReceived += mClient_AnglesReceived;
         }
 
-        
 
         void mClient_AnglesReceived(short a1, short a2, short rot, short gripRot)
         {
-            m3dScene.Angle2 = 90 - mArm.CalibrationData.Right.GetAngleForSensorReading(a1);
-            m3dScene.Angle3 = mArm.CalibrationData.Left.GetAngleForSensorReading(a2);
-            m3dScene.Angle1 = mArm.CalibrationData.Rotation.GetAngleForSensorReading(rot);
+            var a = armIface.Arm;
+            
+            m3dScene.Angle1 = a.CalibrationData.Rotation.GetAngleForSensorReading(rot);
+            m3dScene.Angle2 = a.CalibrationData.Right.GetAngleForSensorReading(a1);
+            m3dScene.Angle3 = a.CalibrationData.Left.GetAngleForSensorReading(a2);
         }
 
         private void View3d_SceneLoad(object arg1, EventArgs arg2)
@@ -49,45 +48,20 @@ namespace MyArmUI
             m3dScene.Setup();
         }
 
-        private void Angle1Trackbar_ValueChanged(object sender, EventArgs e)
+        private void GripperAngleTrackbar_ValueChanged(object sender, EventArgs e)
         {
-            m3dScene.Angle1 = Angle1Trackbar.Value;
+            A1Label.Text = GripperAngleTrackbar.Value.ToString();
+
+            var angles = armIface.Arm.CurrentAngles;
+            angles.A4 = GripperAngleTrackbar.Value;
+
+            armIface.Arm.SetAngles(angles);
         }
-
-        private void Angle2Trackbar_ValueChanged(object sender, EventArgs e)
-        {
-            m3dScene.Angle2 = Angle2Trackbar.Value;
-        }
-
-        private void Angle3Trackbar_ValueChanged(object sender, EventArgs e)
-        {
-            m3dScene.Angle3 = Angle3Trackbar.Value;
-        }
-
-
-        private void LoadConfiguration()
-        {
-            if (!File.Exists(mCalibrationFileName)) return;
-
-            mArm.LoadConfiguration(mCalibrationFileName);
-        }
-
-        private void ConnectButton_Click(object sender, EventArgs e)
-        {
-            mArm.Attach();
-
-            LaunchReaderThread();
-        }
-
-        private void DisconnectButton_Click(object sender, EventArgs e)
-        {
-            mWantsReads = false;
-            mArm.Detach();
-        }
+       
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            mArm.Detach();
+            //mArm.Detach();
         }
 
         private void LaunchReaderThread()
@@ -102,33 +76,29 @@ namespace MyArmUI
         {
             while (mWantsReads)
             {
-                mArm.ReadAngles();
+                armIface.Arm.ReadAngles();
                 Thread.Sleep((int)(1000.0 / SamplesPerSecond));
             }
         }
 
-
-        private void EnumerateWebcams()
+        private void mouse3dController1_PositionChanged(object sender, Point3 newPosition)
         {
-            var c1 = new ManagementClass("Win32_VideoController");
+            // DAVE: calculate time based on the distance. 
+            // Move this code to the client to a function MoveEffector(x, y, z, rx, ry, rz) (6 axis)
+            // the function will do its best to approximate the required position with the robot axes. 
+            // This will make it work in future setups. The function may return a struct with the calculated angles.
+            var angles = IkSolver.GetAnglesForXYZ(newPosition, 148, 161);
+            //armIface.Arm.SetAngles(a1, a2, a3, GripperAngleTrackbar.Value);
+            armIface.Arm.SetAngles(angles, 100);
 
-            foreach (ManagementObject ob in c1.GetInstances())
-            {
-                foreach (PropertyData pd in ob.Properties)
-                {
 
-                    if (pd.Name != null)
-                        Console.WriteLine(" Name " + pd.Name);
 
-                    if (pd.Value != null)
-                        Console.WriteLine(" Value " + pd.Value);
-                }
-            }
+            m3dScene.Angle1 = angles.A1;
+            m3dScene.Angle2 = angles.A2;
+            m3dScene.Angle3 = angles.A3;
+
+            //label1.Text = string.Format("Location ({3:0},{4:0},{5:0})  Angles: {0:0.}, {1:0.}, {2:0.}", a1, a2, a3, newPosition.X, newPosition.Y, newPosition.Z);
         }
 
-        private void EvalBButton_click(object sender, EventArgs e)
-        {
-            EnumerateWebcams();
-        }
     }
 }

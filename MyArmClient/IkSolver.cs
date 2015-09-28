@@ -24,31 +24,42 @@ namespace MyArmClient
         /// <summary>
         /// Calculates inverse kinematics for location x, y, z. Outputs the angles of the joints to reach that position. 
         /// </summary>
-        /// <param name="x">Desired X coordinate</param>
-        /// <param name="y">Desired Y coordinate</param>
-        /// <param name="z">Desired Z coordinate</param>
-        /// <param name="lenA">Arm's link 1 length</param>
-        /// <param name="lenC">Arm's link 2 length</param>
-        /// <param name="angle1">Solution angle 1 (Rotation) in degrees</param>
-        /// <param name="angle2">Solution angle 2 (Right servo) in degrees</param>
-        /// <param name="angle3">Solution angle 3 (Left servo) in degrees</param>
-        public static void GetAnglesForXYZ(int x, int y, int z, int lenA, int lenC, out double angle1, out double angle2, out double angle3)
+        /// <param name="p">The point to move to</param>
+        /// <param name="len1">Arm's link 1 length</param>
+        /// <param name="len2">Arm's link 2 length</param>
+        /// <returns>The angles of the solution for the inverse kinematics</returns>
+        public static RobotAngles GetAnglesForXYZ(Point3 p, int len1, int len2)
         {
-            double a2 = lenA * lenA;
-            double c2 = lenC * lenC;
-            double a2c2 = lenA * lenA + lenC * lenC;
-            double arm2ac = 2 * lenA * lenC;
+            double x = p.X;
+            double y = p.Y;
+            double z = p.Z;
+            double l = Math.Sqrt(x * x + z * z);
 
+            double a2 = len1 * len1;
+            double c2 = len2 * len2;
+            double a2c2 = len1 * len1 + len2 * len2;
+            double arm2ac = 2 * len1 * len2;
 
-            double y2z2 = y * y + z * z;
-            double delta = Math.Atan2((double)z, (double)x) * RadiansToDegrees;
-            double gamma = Math.Acos((a2 + y2z2 - c2) / (2 * lenA * Math.Sqrt(y2z2))) * RadiansToDegrees;
+            double y2z2 = l * l + y * y;
+            double delta = Math.Atan2((double)y, (double)l) * RadiansToDegrees;
+            double gamma = Math.Acos((a2 + y2z2 - c2) / (2 * len1 * Math.Sqrt(y2z2))) * RadiansToDegrees;
             double epsilon = Math.Acos((a2c2 - y2z2) / (arm2ac)) * RadiansToDegrees;
 
-
-            angle1 = Math.Atan2(y, x) * RadiansToDegrees;
-            angle2 = 180 - delta - gamma - epsilon;
-            angle3 = delta + gamma;
+            return new RobotAngles()
+            {
+                A1 = Math.Atan2(z, x) * RadiansToDegrees - 90,
+                A3 = 180 - delta - gamma - epsilon,
+                A2 = delta + gamma
+            };
         }
+    }
+
+    public struct IkData
+    {
+        public Point3 MiddlePoint;
+        public Point3 TargetPoint;
+        public double Angle1;
+        public double Angle2;
+        public double Angle3;
     }
 }

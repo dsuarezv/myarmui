@@ -32,12 +32,12 @@
     <MinimumPulses>2400</MinimumPulses>
     <MaximumPulses>600</MaximumPulses>
     <Min>
-      <Angle>-90</Angle>
+      <Angle>-85</Angle>
       <Pulses>890</Pulses>
       <RawSensor>159</RawSensor>
     </Min>
     <Max>
-      <Angle>80</Angle>
+      <Angle>90</Angle>
       <Pulses>2388</Pulses>
       <RawSensor>436</RawSensor>
     </Max>
