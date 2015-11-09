@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="CalibrationData.cs" />
     <Compile Include="Client.cs" />
-    <Compile Include="Crc8.cs" />
     <Compile Include="IkSolver.cs" />
     <Compile Include="PathStep.cs" />
     <Compile Include="Point3.cs" />
