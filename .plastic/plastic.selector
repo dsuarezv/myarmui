@@ -1,4 +1,0 @@
-repository "myarm@localhost:8087"
-  path "/"
-    smartbranch "/master/task-acceleration/task-recording/serial-protocol-library"      
-     
